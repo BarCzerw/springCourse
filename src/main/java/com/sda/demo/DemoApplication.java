@@ -2,14 +2,13 @@ package com.sda.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoPeriod;
 import java.time.temporal.ChronoUnit;
+import java.util.Random;
 
 @SpringBootApplication
 @RestController
@@ -22,8 +21,19 @@ public class DemoApplication {
     @GetMapping("/hello")
     public String sayHello(
             @RequestParam(value = "myName", defaultValue = "World") String name,
-            @RequestParam(value = "mySurname", defaultValue = "Kowalski") String surname) {
-        return String.format("Hello %s %s!", name, surname);
+            @RequestParam(value = "mySurname", defaultValue = "Kowalski") String surname,
+            @RequestParam(value = "myAge", defaultValue = "99") int age ) {
+        return String.format("Hello %s %s! Age - %s", name, surname, age);
+    }
+
+    @GetMapping("/lottery")
+    public String lottery(@RequestParam(value = "playerNumber") int playerNumber){
+        final int drawNumber = new Random().nextInt(10)+1;
+
+        return "<p>Drawn number: " + drawNumber + "</p>" +
+                "<p>Player number: " + playerNumber + "</p>" +
+                (drawNumber==playerNumber ? "<h2>You win!</h2>" : "<h2>Try next time...</h2>")+
+                "<a href=\"lottery.html\"><h1>Lottery!</h1></a>";
     }
 
     @GetMapping("/premium")
