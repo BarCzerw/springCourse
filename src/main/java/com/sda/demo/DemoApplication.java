@@ -26,6 +26,11 @@ public class DemoApplication {
         return String.format("Hello %s %s! Age - %s", name, surname, age);
     }
 
+    @GetMapping("/helloDto")
+    public String sayHelloDto(@RequestBody HelloDTO helloDTO){
+        return String.format("Hello %s %s! Age - %s", helloDTO.getName(), helloDTO.getSurname(), helloDTO.getAge());
+    }
+
     @GetMapping("/lottery")
     public String lottery(@RequestParam(value = "playerNumber") int playerNumber){
         final int drawNumber = new Random().nextInt(10)+1;
@@ -33,7 +38,7 @@ public class DemoApplication {
         return "<p>Drawn number: " + drawNumber + "</p>" +
                 "<p>Player number: " + playerNumber + "</p>" +
                 (drawNumber==playerNumber ? "<h2>You win!</h2>" : "<h2>Try next time...</h2>")+
-                "<a href=\"lottery.html\"><h1>Lottery!</h1></a>";
+                "<a href=\"lottery.html\"><h1>Lottery!</h1></a>chrome";
     }
 
     @GetMapping("/premium")
